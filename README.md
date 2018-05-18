@@ -25,7 +25,7 @@ D.A just merged his feature to stagging environment (website_develop) because it
 
 D.B wants to test his feature in the stagging environment. But he can't merge to website_develop because it would be merged to master without being done and cause errors (D.B will merge develop to master soon).
 
-> **GDSC** will clone the service **website_develop** with a new name based on the branch's name and a new Traefik URI.
+> **GDSC** will clone the service **website_develop** with a new name based on the branch's name with the new docker image URL and a new Traefik host.
 
 D.B publishes his **feature/a** to the repository (`git flow feature publish`).
 

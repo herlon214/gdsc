@@ -48,7 +48,7 @@ func main() {
 
 	// Check if the service is already created
 	if service.Spec.Name == "" {
-		log.Debugf("Service %s not created, creating a new one based on develop...", args.BranchName)
+		log.Warningf("Service %s not created, creating a new one based on develop...", args.BranchName)
 		service = api.GetService(args.ServiceCopyName)
 
 		newService := service

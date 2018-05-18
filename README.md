@@ -23,7 +23,7 @@ Your services (based on git flow branches):
 
 D.A just merged his feature to stagging environment (website_develop) because it's done.
 
-D.B wants to test his feature in the stagging environment. But he can't merge to website_develop because it would be merged to master without being done and cause errors.
+D.B wants to test his feature in the stagging environment. But he can't merge to website_develop because it would be merged to master without being done and cause errors (D.B will merge develop to master soon).
 
 > **GDSC** will clone the service **website_develop** with a new name based on the branch's name and a new Traefik URI.
 

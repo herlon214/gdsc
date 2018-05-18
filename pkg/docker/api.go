@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/franela/goreq"
+	"github.com/herlon214/gdsc/pkg/http"
 	"github.com/herlon214/gdsc/pkg/logger"
 )
 
@@ -87,37 +87,9 @@ type Api struct {
 	ApiUrl string
 }
 
-// Request do a docker api request
-func (api *Api) Request(method string, path string, body interface{}) (string, *goreq.Response) {
-	log := logger.DefaultLogger()
-
-	fullPath := api.ApiUrl + path
-
-	log.Debugf("[%s] -> %s", method, fullPath)
-
-	bodyJSON, _ := json.Marshal(body)
-	log.Debugf("Body %+v", string(bodyJSON))
-
-	res, err := goreq.Request{
-		Method: method,
-		Uri:    fullPath,
-		Body:   body,
-	}.Do()
-
-	responseBody, _ := res.Body.ToString()
-
-	log.Debug(responseBody)
-
-	if err != nil {
-		log.Critical(err)
-	}
-
-	return responseBody, res
-}
-
 // CreateService create a docker service based on the given spec
 func (api *Api) CreateService(spec Spec) *CreateServiceResponse {
-	body, _ := api.Request("POST", "/services/create", spec)
+	body, _ := http.Post(api.ApiUrl+"/services/create", spec)
 
 	var response CreateServiceResponse
 	json.Unmarshal([]byte(body), &response)
@@ -132,14 +104,14 @@ func (api *Api) UpdateService(service Service) bool {
 
 	log.Debugf("New version: %s", newVersion)
 
-	_, res := api.Request("POST", "/services/"+service.Spec.Name+"/update?version="+newVersion, service.Spec)
+	_, res := http.Post(api.ApiUrl+"/services/"+service.Spec.Name+"/update?version="+newVersion, service.Spec)
 
 	return res.StatusCode == 200
 }
 
 // GetService return the service information
 func (api *Api) GetService(nameOrID string) *Service {
-	body, _ := api.Request("GET", "/services/"+nameOrID, nil)
+	body, _ := http.Get(api.ApiUrl + "/services/" + nameOrID)
 
 	var response Service
 	json.Unmarshal([]byte(body), &response)

@@ -10,6 +10,7 @@ Your stack:
 - [Docker Swarm](https://github.com/docker/swarm)
 
 Your services (based on git flow branches):
+
 |Name|Type|Branch|URI|
 |----|----|------|---|
 |website_master|production|master|http://my.website/|

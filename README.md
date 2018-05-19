@@ -1,5 +1,20 @@
 # Go Docker Service Clone (aka GDSC)
 
+## Usage
+
+```
+$ go get github.com/herlon214/gdsc
+$ gdsc
+Usage: gdsc --from FROM --name NAME --image IMAGE
+
+Options:
+  --from FROM            service that will be cloned if there is no service with the given --name
+  --name NAME            service name that will be deployed
+  --image IMAGE          new docker image url
+  --help, -h             display this help and exit
+```
+
+## How it works
 Think about the scenario below and you can understand what's the purpose of this project.
 
 Your stack:

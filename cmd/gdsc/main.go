@@ -11,9 +11,9 @@ import (
 
 // Args contain th received args when execute 'gdsc'
 type Args struct {
-	From  string `help:"service that will be cloned if there is no service with the given --name"`
-	Name  string `help:"service name that will be deployed"`
-	Image string `help:"new docker image url"`
+	From  string `arg:"required" help:"service that will be cloned if there is no service with the given --name"`
+	Name  string `arg:"required" help:"service name that will be deployed"`
+	Image string `arg:"required" help:"new docker image url"`
 }
 
 // ParseArgs parse the received args

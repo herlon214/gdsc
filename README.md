@@ -1,5 +1,7 @@
 # Go Docker Service Clone (aka GDSC)
 
+Clone docker services in a easy way.
+
 ## Usage
 
 ```

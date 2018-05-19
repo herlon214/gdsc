@@ -32,6 +32,10 @@ In other words: if you specify `--name my_service_feature/1 --domain mycompany.o
 
 This behavior will be triggered if there is a service with the name given (`--name`), it will only update the docker image of this service with the given one (`--image`).
 
+## How to build
+
+If you have docker installed you can type `make build` and the binary output will appear in dist/ folder.
+
 ## Published Ports issue
 
 This project doesn't copy the **published ports** because Traefik will connect to container port. The published port may cause a `already in use` error.

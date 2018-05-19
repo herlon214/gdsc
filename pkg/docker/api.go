@@ -45,6 +45,7 @@ type ContainerSpec struct {
 	Isolation string
 	Env       []string
 	Configs   []Config
+	Labels    map[string]string
 }
 
 type TaskTemplate struct {

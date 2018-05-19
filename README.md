@@ -6,7 +6,7 @@ Clone docker services in a easy way.
 
 ```
 $ go get github.com/herlon214/gdsc/cmd/gdsc
-$ gdsc
+$ gdsc -h
 Usage: gdsc --from FROM --name NAME --image IMAGE --domain DOMAIN
 
 Options:

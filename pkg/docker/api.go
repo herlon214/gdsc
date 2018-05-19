@@ -40,12 +40,19 @@ type Config struct {
 	}
 }
 
+type Mount struct {
+	Type   string
+	Source string
+	Target string
+}
+
 type ContainerSpec struct {
 	Image     string
 	Isolation string
 	Env       []string
 	Configs   []Config
 	Labels    map[string]string
+	Mounts    []Mount
 }
 
 type TaskTemplate struct {

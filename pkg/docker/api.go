@@ -46,6 +46,17 @@ type Mount struct {
 	Target string
 }
 
+type Secret struct {
+	SecretID   string
+	SecretName string
+	File       struct {
+		Name string
+		UID  string
+		GID  string
+		Mode int
+	}
+}
+
 type ContainerSpec struct {
 	Image     string
 	Isolation string
@@ -54,6 +65,7 @@ type ContainerSpec struct {
 	Labels    map[string]string
 	Mounts    []Mount
 	Hosts     []string
+	Secrets   []Secret
 }
 
 type Placement struct {

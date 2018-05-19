@@ -92,7 +92,7 @@ pipeline {
     }
     stage ("Deploy") {
       steps {
-        sh "gdsc --from ${env.JOB_NAME} --name ${env.JOB_NAME}${env.BRANCH_NAME} --image REGISTRY_URL:${env.BRANCH_NAME}"
+        sh "gdsc --from ${env.JOB_NAME} --name ${env.JOB_NAME}${env.BRANCH_NAME} --image REGISTRY_URL:${env.BRANCH_NAME} --domain mycompany.org"
       }
     }
   }

@@ -11,10 +11,30 @@ Options:
   --from FROM            service that will be cloned if there is no service with the given --name
   --name NAME            service name that will be deployed
   --image IMAGE          new docker image url
+  --domain DOMAIN        root domain to be used in the traefik host, eg: mycompany.org
   --help, -h             display this help and exit
 ```
 
-## How it works
+## Create / Update behaviors
+There are two behaviors when executed: create / update.
+
+**Create**
+
+This behavior will be triggered if there's no service created with name `--name`. If triggered, it will copy the whole `--from` service, secrets, hosts, mounts, environment vars, labels, creating a new one with name `--name` and the given `--image`.
+
+It will change the `traefik.frontend.rule` label in the new service setting a new host to the service. The new host will be `http://new_service_name.domain_from_arg`. The new service name is cleaned replacing all non-words (`/\W/`) with "`_`" to be a bit web friendly. 
+
+In other words: if you specify `--name my_service_feature/1 --domain mycompany.org`, the service name will be set to `my_service_feature_1` and the host will be `http://my_service_feature_1.mycompany.org`.
+
+**Update**
+
+This behavior will be triggered if there is a service with the name given (`--name`), it will only update the docker image of this service with the given one (`--image`).
+
+## Published Ports issue
+
+This project doesn't copy the **published ports** because Traefik will connect to container port. The published port may cause a `already in use` error.
+
+## How it works in a CI stack
 Think about the scenario below and you can understand what's the purpose of this project.
 
 Your stack:
@@ -49,7 +69,7 @@ Git repository (gitlab, github) will trigger Jenkins with the update.
 Jenkins will build the *Dockerfile* and then call GDSC to create a new service or update the a created service.
 
 > ```
-> gdsc website feature/a registry.gitlab.com/mycompany/website:feature_a
+> gdsc --from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a
 > ```
 
 Here is a Jenkinsfile example:
@@ -70,7 +90,7 @@ pipeline {
     }
     stage ("Deploy") {
       steps {
-        sh "gdsc ${env.JOB_NAME} ${env.BRANCH_NAME} REGISTRY_URL:${env.BRANCH_NAME}"
+        sh "gdsc --from ${env.JOB_NAME} --name ${env.JOB_NAME}${env.BRANCH_NAME} --image REGISTRY_URL:${env.BRANCH_NAME}"
       }
     }
   }
@@ -83,9 +103,4 @@ Lastly, your services will look like:
 |----|----|------|---|
 |website_master|production|master|http://my.website/|
 |website_develop|stagging|develop|http://beta.my.website/|
-|website_feature_a|testing|feature/a|http://feature_a.testing.my.website/|
-
-
-## Published Ports
-
-This project doesn't copy the published ports because Traefik will connect to container port. The published port may cause a `already in use` error.
+|website_feature_a|testing|feature/a|http://feature_a.my.website/|

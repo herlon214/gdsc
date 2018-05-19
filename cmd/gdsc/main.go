@@ -30,8 +30,6 @@ func ParseArgs() Args {
 }
 
 func main() {
-	// Logging
-
 	var api = docker.Api{ApiUrl: "http://127.0.0.1:2375"}
 	var log = logger.DefaultLogger()
 	args := ParseArgs()

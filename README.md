@@ -68,7 +68,7 @@ D.B publishes his **feature/a** to the repository (`git flow feature publish`).
 
 Git repository (gitlab, github) will trigger Jenkins with the update.
 
-Jenkins will build the *Dockerfile* and then call GDSC to create a new service or update the a created service.
+Jenkins will build the *Dockerfile* and then call GDSC to create a new service or update a created service.
 
 > ```
 > gdsc --from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a --domain mycompany.org

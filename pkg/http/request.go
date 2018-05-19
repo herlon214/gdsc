@@ -31,7 +31,7 @@ func Post(uri string, body interface{}) (string, gorequest.Response) {
 	request := gorequest.New()
 	resp, bodyRes, err := request.Post(uri).Send(string(bodyJSON)).End()
 
-	log.Debug(bodyRes)
+	// log.Debug(bodyRes)
 
 	if err != nil {
 		log.Critical(err)

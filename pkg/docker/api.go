@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/herlon214/gdsc/pkg/http"
-	"github.com/herlon214/gdsc/pkg/logger"
 )
 
 type UpdateConfig struct {
@@ -125,8 +124,9 @@ type Service struct {
 
 // CreateServiceResponse format of docker api response when create a service
 type CreateServiceResponse struct {
-	message string
-	ID      string
+	message  string
+	ID       string
+	Warnings string
 }
 
 type Api struct {
@@ -145,10 +145,7 @@ func (api *Api) CreateService(spec Spec) *CreateServiceResponse {
 
 // UpdateService update a docker service based on the given spec
 func (api *Api) UpdateService(service Service) bool {
-	log := logger.DefaultLogger()
 	newVersion := strconv.Itoa(service.Version.Index)
-
-	log.Debugf("New version: %s", newVersion)
 
 	_, res := http.Post(api.ApiUrl+"/services/"+service.Spec.Name+"/update?version="+newVersion, service.Spec)
 

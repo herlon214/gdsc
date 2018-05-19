@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"regexp"
 
 	"github.com/alexflint/go-arg"
@@ -40,14 +40,12 @@ func main() {
 	var log = logger.DefaultLogger()
 	args := ParseArgs()
 
-	fmt.Printf("%+v\n", args)
-
 	// Try to get a crated service
 	service := api.GetService(args.Name)
 
 	// Check if the service is already created
 	if service.Spec.Name == "" {
-		log.Warningf("Service was %s not created yet, creating a new one based on %s...", args.Name, args.From)
+		log.Warningf("Service was %s not created yet, creating a new one based on %s ...", args.Name, args.From)
 		service = api.GetService(args.From)
 
 		newService := service
@@ -59,9 +57,8 @@ func main() {
 
 		response := api.CreateService(newService.Spec)
 		log.Debugf("Service created with ID: %s", response.ID)
-		log.Warningf("%+v\n", response)
 	} else { // Update a created service
-		log.Debugf("Updating a existent service with name %s...", args.Name)
+		log.Debugf("Updating a existent service with name %s ...", args.Name)
 		newService := service
 
 		// Change the service informations
@@ -73,6 +70,9 @@ func main() {
 			log.Noticef("Service %s updated successfully!", args.Name)
 		} else {
 			log.Errorf("Failure when updating service %s!", args.Name)
+
+			// Exit with error status
+			os.Exit(1)
 		}
 	}
 

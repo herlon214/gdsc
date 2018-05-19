@@ -56,10 +56,20 @@ type ContainerSpec struct {
 	Hosts     []string
 }
 
+type Placement struct {
+	Constraints []string
+	Preferences []struct {
+		Spread struct {
+			SpreadDescriptor string
+		}
+	}
+}
+
 type TaskTemplate struct {
 	ContainerSpec ContainerSpec
 	ForceUpdate   int
 	Runtime       string
+	Placement     Placement
 }
 
 type Mode struct {

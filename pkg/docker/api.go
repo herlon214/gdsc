@@ -43,6 +43,7 @@ type Config struct {
 type ContainerSpec struct {
 	Image     string
 	Isolation string
+	Env       []string
 	Configs   []Config
 }
 

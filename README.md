@@ -34,7 +34,7 @@ This behavior will be triggered if there is a service with the name given (`--na
 
 ## How to build
 
-If you have docker installed you can type `make build` and the binary output will appear in dist/ folder.
+If you have docker installed you can type `make build` and the binary output will appear in `dist/` folder.
 
 ## Published Ports issue
 

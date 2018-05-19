@@ -53,6 +53,7 @@ type ContainerSpec struct {
 	Configs   []Config
 	Labels    map[string]string
 	Mounts    []Mount
+	Hosts     []string
 }
 
 type TaskTemplate struct {

@@ -5,7 +5,7 @@
 ```
 $ go get github.com/herlon214/gdsc
 $ gdsc
-Usage: gdsc --from FROM --name NAME --image IMAGE
+Usage: gdsc --from FROM --name NAME --image IMAGE --domain DOMAIN
 
 Options:
   --from FROM            service that will be cloned if there is no service with the given --name
@@ -48,8 +48,8 @@ Your services (based on git flow branches):
 
 |Name|Type|Branch|URI|
 |----|----|------|---|
-|website_master|production|master|http://my.website/|
-|website_develop|stagging|develop|http://beta.my.website/|
+|website_master|production|master|http://mycompany.org/|
+|website_develop|stagging|develop|http://beta.mycompany.org/|
 
 **Developer A** (aka D.A) is working on **feature/a** in the website project.
 
@@ -69,7 +69,7 @@ Git repository (gitlab, github) will trigger Jenkins with the update.
 Jenkins will build the *Dockerfile* and then call GDSC to create a new service or update the a created service.
 
 > ```
-> gdsc --from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a
+> gdsc --from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a --domain mycompany.org
 > ```
 
 Here is a Jenkinsfile example:
@@ -101,6 +101,6 @@ Lastly, your services will look like:
 
 |Name|Type|Branch|URI|
 |----|----|------|---|
-|website_master|production|master|http://my.website/|
-|website_develop|stagging|develop|http://beta.my.website/|
-|website_feature_a|testing|feature/a|http://feature_a.my.website/|
+|website_master|production|master|http://mycompany.org/|
+|website_develop|stagging|develop|http://beta.mycompany.org/|
+|website_feature_a|testing|feature/a|http://feature_a.mycompany.org/|

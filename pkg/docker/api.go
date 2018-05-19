@@ -8,14 +8,6 @@ import (
 	"github.com/herlon214/gdsc/pkg/logger"
 )
 
-type ModeReplicated struct {
-	Replicas int
-}
-
-type Mode struct {
-	Replicated ModeReplicated
-}
-
 type UpdateConfig struct {
 	Parallelism     int
 	Delay           int
@@ -37,18 +29,33 @@ type Network struct {
 	Target string
 }
 
-type EndpointSpec struct {
-	Mode string
+type Config struct {
+	ConfigID   string
+	ConfigName string
+	File       struct {
+		Name string
+		UID  string
+		GID  string
+		Mode int
+	}
 }
 
 type ContainerSpec struct {
-	Image string
+	Image     string
+	Isolation string
+	Configs   []Config
 }
 
 type TaskTemplate struct {
 	ContainerSpec ContainerSpec
 	ForceUpdate   int
 	Runtime       string
+}
+
+type Mode struct {
+	Replicated struct {
+		Replicas int
+	}
 }
 
 // Docker service spec struct
@@ -60,21 +67,17 @@ type Spec struct {
 	UpdateConfig   UpdateConfig
 	RollbackConfig RollbackConfig
 	Networks       []Network
-	EndpointSpec   EndpointSpec
-}
-
-type ServiceVersion struct {
-	Index int
+	EndpointSpec   struct {
+		Mode string
+	}
 }
 
 // Docker service struct
 type Service struct {
 	Spec    Spec
-	Version ServiceVersion
-}
-
-type ServiceUpdateQueryString struct {
-	version int
+	Version struct {
+		Index int
+	}
 }
 
 // CreateServiceResponse format of docker api response when create a service

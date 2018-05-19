@@ -56,7 +56,7 @@ func main() {
 		// Change the service informations
 		newService.Spec.TaskTemplate.ContainerSpec.Image = args.ImageURL
 		newService.Spec.Name = args.NewServiceName
-		newService.Spec.Labels["traefik.frontend.rule"] = "Host " + args.BranchName + ".doare.org"
+		newService.Spec.Labels["traefik.frontend.rule"] = "Host: " + args.BranchName + ".doare.org"
 
 		response := api.CreateService(newService.Spec)
 		log.Debugf("Service created with ID: %s", response.ID)

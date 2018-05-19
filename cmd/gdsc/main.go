@@ -59,6 +59,7 @@ func main() {
 
 		response := api.CreateService(newService.Spec)
 		log.Debugf("Service created with ID: %s", response.ID)
+		log.Warningf("%+v\n", response)
 	} else { // Update a created service
 		log.Debugf("Updating a existent service with name %s...", args.Name)
 		newService := service

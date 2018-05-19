@@ -67,6 +67,19 @@ type Mode struct {
 	}
 }
 
+type Port struct {
+	Protocol      string
+	TargetPort    int
+	PublishedPort int
+	PublishMode   string
+}
+
+type EndpointSpec struct {
+	Mode string
+	// Ports []Port
+	// Not copy the published ports because Traefik will connect to specified container port
+}
+
 // Docker service spec struct
 type Spec struct {
 	Name           string
@@ -76,9 +89,7 @@ type Spec struct {
 	UpdateConfig   UpdateConfig
 	RollbackConfig RollbackConfig
 	Networks       []Network
-	EndpointSpec   struct {
-		Mode string
-	}
+	EndpointSpec   EndpointSpec
 }
 
 // Docker service struct

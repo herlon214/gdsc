@@ -84,3 +84,8 @@ Lastly, your services will look like:
 |website_master|production|master|http://my.website/|
 |website_develop|stagging|develop|http://beta.my.website/|
 |website_feature_a|testing|feature/a|http://feature_a.testing.my.website/|
+
+
+## Published Ports
+
+This project doesn't copy the published ports because Traefik will connect to container port. The published port may cause a `already in use` error.

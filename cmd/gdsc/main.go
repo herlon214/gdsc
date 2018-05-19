@@ -59,8 +59,6 @@ func main() {
 
 		// Change the service informations
 		newService.Spec.TaskTemplate.ContainerSpec.Image = args.Image
-		newService.Spec.Name = args.Name
-		newService.Spec.Labels["traefik.frontend.rule"] = "Host: " + args.Name + "." + args.Domain
 
 		if api.UpdateService(*newService) == true {
 			log.Noticef("Service %s updated successfully!", args.Name)

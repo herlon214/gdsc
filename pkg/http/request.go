@@ -21,7 +21,7 @@ func Get(uri string) (string, gorequest.Response) {
 	return body, resp
 }
 
-func Post(uri string, body interface{}) (string, gorequest.Response) {
+func Post(uri string, body interface{}, headers map[string]string) (string, gorequest.Response) {
 	log := logger.DefaultLogger()
 	// log.Debugf("[POST] -> %s", uri)
 
@@ -29,6 +29,14 @@ func Post(uri string, body interface{}) (string, gorequest.Response) {
 	// log.Debugf("Body %+v", string(bodyJSON))
 
 	request := gorequest.New()
+
+	// Check if there is some header
+	if headers != nil {
+		for key, value := range headers {
+			request.Header.Set(key, value)
+		}
+	}
+
 	resp, bodyRes, err := request.Post(uri).Send(string(bodyJSON)).End()
 
 	// log.Debug(bodyRes)

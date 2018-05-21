@@ -7,13 +7,15 @@ Clone docker services in a easy way.
 ```
 $ go get github.com/herlon214/gdsc/cmd/gdsc
 $ gdsc -h
-Usage: gdsc --from FROM --name NAME --image IMAGE --domain DOMAIN
+Usage: gdsc --from FROM --name NAME --image IMAGE [--domain DOMAIN] [--auth AUTH] [--apiurl APIURL]
 
 Options:
   --from FROM            service that will be cloned if there is no service with the given --name
   --name NAME            service name that will be deployed
   --image IMAGE          new docker image url
   --domain DOMAIN        root domain to be used in the traefik host, eg: mycompany.org
+  --auth AUTH            registry auth token
+  --apiurl APIURL        docker api url, eg: http://127.0.0.1:2375
   --help, -h             display this help and exit
 ```
 

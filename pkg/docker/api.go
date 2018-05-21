@@ -134,8 +134,8 @@ type Api struct {
 }
 
 // CreateService create a docker service based on the given spec
-func (api *Api) CreateService(spec Spec) *CreateServiceResponse {
-	body, _ := http.Post(api.ApiUrl+"/services/create", spec)
+func (api *Api) CreateService(spec Spec, headers map[string]string) *CreateServiceResponse {
+	body, _ := http.Post(api.ApiUrl+"/services/create", spec, headers)
 
 	var response CreateServiceResponse
 	json.Unmarshal([]byte(body), &response)
@@ -144,10 +144,10 @@ func (api *Api) CreateService(spec Spec) *CreateServiceResponse {
 }
 
 // UpdateService update a docker service based on the given spec
-func (api *Api) UpdateService(service Service) bool {
+func (api *Api) UpdateService(service Service, headers map[string]string) bool {
 	newVersion := strconv.Itoa(service.Version.Index)
 
-	_, res := http.Post(api.ApiUrl+"/services/"+service.Spec.Name+"/update?version="+newVersion, service.Spec)
+	_, res := http.Post(api.ApiUrl+"/services/"+service.Spec.Name+"/update?version="+newVersion, service.Spec, headers)
 
 	return res.StatusCode == 200
 }

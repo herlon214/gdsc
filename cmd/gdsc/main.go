@@ -78,6 +78,18 @@ func CreateService(args Args, api docker.Api) {
 
 	response := api.CreateService(service.Spec, headers)
 	log.Debugf("Service created with ID: %s", response.ID)
+
+	// Update service with daemon (becuase of --with-registry not working)
+	success := api.UpdateWithDaemon(*service)
+
+	if success == true {
+		log.Noticef("Service %s updated with daemon successfully!", args.Name)
+	} else {
+		log.Errorf("Failure when updating service %s!", args.Name)
+
+		// Exit with error status
+		os.Exit(1)
+	}
 }
 
 // UpdateService updates a service with new docker image

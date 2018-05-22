@@ -2,6 +2,9 @@ package docker
 
 import (
 	"encoding/json"
+	"fmt"
+	"os"
+	"os/exec"
 	"strconv"
 
 	"github.com/herlon214/gdsc/pkg/http"
@@ -160,4 +163,34 @@ func (api *Api) GetService(nameOrID string) *Service {
 	json.Unmarshal([]byte(body), &response)
 
 	return &response
+}
+
+// UpdateWithDaemon call os.exec with docker daemon
+// because docker service update --with-registry doesn't work yet
+func (api *Api) UpdateWithDaemon(service Service) bool {
+	err := SystemExec([][]string{
+		{
+			"docker", "service", "update", "--with-registry-auth", "--image", service.Spec.TaskTemplate.ContainerSpec.Image, service.Spec.Name,
+		},
+	})
+
+	if err != nil {
+		panic(fmt.Errorf("Command failed with: %+v", err))
+	}
+
+	return true
+}
+
+// SystemExec execute a command in the system
+func SystemExec(commands [][]string) error {
+	for _, c := range commands {
+		cmd := exec.Command(c[0], c[1:]...)
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Env = os.Environ()
+		if err := cmd.Run(); err != nil {
+			return err
+		}
+	}
+	return nil
 }

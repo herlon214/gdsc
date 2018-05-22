@@ -17,6 +17,7 @@ type Args struct {
 	Domain string `help:"root domain to be used in the traefik host, eg: mycompany.org"`
 	Auth   string `help:"registry auth token"`
 	APIURL string `help:"docker api url, eg: http://127.0.0.1:2375"`
+	Daemon bool   `help:"use docker daemon on OS instead of call api (only when updating)"`
 }
 
 // ParseArgs parse the received args
@@ -92,9 +93,17 @@ func UpdateService(args Args, api docker.Api, service docker.Service) {
 
 	// Change the service informations
 	service.Spec.TaskTemplate.ContainerSpec.Image = args.Image
+	var success bool
 
-	if api.UpdateService(service, headers) == true {
-		log.Noticef("Service %s updated successfully!", args.Name)
+	// Check if must run as daemon
+	if args.Daemon {
+		success = api.UpdateWithDaemon(service)
+	} else {
+		success = api.UpdateService(service, headers)
+	}
+
+	if success == true {
+		log.Noticef("Service %s updated with daemon successfully!", args.Name)
 	} else {
 		log.Errorf("Failure when updating service %s!", args.Name)
 

@@ -18,8 +18,8 @@ var Daemon bool
 // upsertCmd represents the upsert command
 var upsertCmd = &cobra.Command{
 	Use:   "upsert",
-	Short: "Copy a service and create a new one overriding image and name",
-	Long:  ``,
+	Short: "Copy a service and create a new one overriding some props",
+	Long:  `You can also set a new traefik host if you want`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Try to get a crated service
 		api := docker.Api{ApiUrl: ApiUrl}

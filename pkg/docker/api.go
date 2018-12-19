@@ -127,7 +127,7 @@ type Service struct {
 
 // CreateServiceResponse format of docker api response when create a service
 type CreateServiceResponse struct {
-	message  string
+	Message  string
 	ID       string
 	Warnings string
 }
@@ -139,6 +139,16 @@ type Api struct {
 // CreateService create a docker service based on the given spec
 func (api *Api) CreateService(spec Spec, headers map[string]string) *CreateServiceResponse {
 	body, _ := http.Post(api.ApiUrl+"/services/create", spec, headers)
+
+	var response CreateServiceResponse
+	json.Unmarshal([]byte(body), &response)
+
+	return &response
+}
+
+// CreateRawService create a service from a given json
+func (api *Api) CreateRawService(spec Spec) *CreateServiceResponse {
+	body, _ := http.Post(api.ApiUrl+"/services/create", spec, nil)
 
 	var response CreateServiceResponse
 	json.Unmarshal([]byte(body), &response)
@@ -163,6 +173,13 @@ func (api *Api) GetService(nameOrID string) *Service {
 	json.Unmarshal([]byte(body), &response)
 
 	return &response
+}
+
+// GetRawService return the exactly output from docker api
+func (api *Api) GetRawService(nameOrID string) string {
+	body, _ := http.Get(api.ApiUrl + "/services/" + nameOrID)
+
+	return body
 }
 
 // UpdateWithDaemon call os.exec with docker daemon

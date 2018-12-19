@@ -3,7 +3,7 @@ package logger
 import (
 	"os"
 
-	"github.com/op/go-logging"
+	logging "github.com/op/go-logging"
 )
 
 // DefaultLogger return a default logger

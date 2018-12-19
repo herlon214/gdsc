@@ -7,17 +7,22 @@ Clone docker services in a easy way.
 ```
 $ go get github.com/herlon214/gdsc/cmd/gdsc
 $ gdsc -h
-Usage: gdsc --from FROM --name NAME --image IMAGE [--domain DOMAIN] [--auth AUTH] [--apiurl APIURL] [--daemon]
+Utilities to deal with services in docker.
 
-Options:
-  --from FROM            service that will be cloned if there is no service with the given --name
-  --name NAME            service name that will be deployed
-  --image IMAGE          new docker image url
-  --domain DOMAIN        root domain to be used in the traefik host, eg: mycompany.org
-  --auth AUTH            registry auth token
-  --apiurl APIURL        docker api url, eg: http://127.0.0.1:2375
-  --daemon               use docker daemon on OS instead of call api (only when updating)
-  --help, -h             display this help and exit
+Usage:
+  gdsc [command]
+
+Available Commands:
+  export      Export a service to a json file
+  help        Help about any command
+  import      Import a JSON file and create a service using it
+  upsert      Copy a service and create a new one overriding some props
+
+Flags:
+      --api-url string   Docker api url (default "http://127.0.0.1:2375")
+  -h, --help             help for gdsc
+
+Use "gdsc [command] --help" for more information about a command.
 ```
 
 ## Create / Update behaviors
@@ -25,7 +30,7 @@ There are two behaviors when executed: create / update.
 
 **Create**
 
-This behavior will be triggered if there's no service created with name `--name`. If triggered, it will copy the whole `--from` service, secrets, hosts, mounts, environment vars, labels, creating a new one with name `--name` and the given `--image`.
+This behavior will be triggered if there's no service created with name `--name`. If triggered, it will copy the whole `--copy-from` service, secrets, hosts, mounts, environment vars, labels, creating a new one with name `--name` and the given `--image`.
 
 It will change the `traefik.frontend.rule` label in the new service setting a new host to the service. The new host will be `http://new_service_name.domain_from_arg`. The new service name is cleaned replacing all non-words (`/\W/`) with "`_`" to be a bit web friendly. 
 
@@ -78,7 +83,7 @@ Git repository (gitlab, github) will trigger Jenkins with the update.
 Jenkins will build the *Dockerfile* and then call GDSC to create a new service or update a created service.
 
 > ```
-> gdsc --from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a --domain mycompany.org
+> gdsc --copy-from voting_example_develop --name voting_example_feature/a --image registry.gitlab.com/mycompany/website:feature_a --domain mycompany.org
 > ```
 
 Here is a Jenkinsfile example:
@@ -99,7 +104,7 @@ pipeline {
     }
     stage ("Deploy") {
       steps {
-        sh "gdsc --from ${env.JOB_NAME} --name ${env.JOB_NAME}${env.BRANCH_NAME} --image REGISTRY_URL:${env.BRANCH_NAME} --domain mycompany.org"
+        sh "gdsc --copy-from ${env.JOB_NAME} --name ${env.JOB_NAME}${env.BRANCH_NAME} --image REGISTRY_URL:${env.BRANCH_NAME} --domain mycompany.org"
       }
     }
   }

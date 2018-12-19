@@ -4,7 +4,6 @@ import (
 	"os"
 	"regexp"
 
-	"github.com/alexflint/go-arg"
 	"github.com/herlon214/gdsc/pkg/docker"
 	"github.com/herlon214/gdsc/pkg/logger"
 )

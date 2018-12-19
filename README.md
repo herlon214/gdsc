@@ -5,7 +5,7 @@ Clone docker services in a easy way.
 ## Usage
 
 ```
-$ go get github.com/herlon214/gdsc/cmd/gdsc
+$ go get github.com/herlon214/gdsc
 $ gdsc -h
 Utilities to deal with services in docker.
 
